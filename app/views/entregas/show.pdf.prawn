@@ -107,7 +107,18 @@ prawn_document(page_layout: :portrait) do |pdf|
     pdf.pad(5){
         pdf.stroke_horizontal_rule
     }
-
+    
+    pdf.pad(5){
+        pdf.table([["TOTAL DE DEBITO", "R$ 1223.34"]], :column_widths => [120, 120], :cell_style => {:size => 8}, :position => :center)
+        pdf.table([["IMPLEMENTO CONTRATUAL", @entrega.implemento]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
+        pdf.table([["MULTA CONTRATUAL", @entrega.multa]], :column_widths => [120,120], :cell_style => {:size => 8},:position => :center )
+        pdf.table([["TAXA CONDOMINIO", @entrega.condominio]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
+        pdf.table([["ENCARGOS ADM", @entrega.encargos]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
+        pdf.table([["DÉBITOS DIVERSOS", @entrega.debito_diversos]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
+        pdf.table([["CRÉDITO", @entrega.credito]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
+        pdf.table([["CAUÇÃO", @entrega.caucao]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
+        pdf.table([["TOTAL", @entrega.endereco]], :column_widths => [120,120], :cell_style => {:size => 8, :font_style => :bold}, :position => :center)
+    }
 end
 
 
