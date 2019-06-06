@@ -1,0 +1,43 @@
+<div class="page-header">
+  <%= link_to new_contum_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Nova conta
+  <% end %>
+  <h1>Contas públicas</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+            <th>Tipo conta</th>
+            <th>Cadastro</th>
+            <th>Referencia</th>
+            <th>Vencimento</th>
+            <th>Valor</th>
+            <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @conta) do |contum| %>
+            <td><%= contum.tipo_contum.descricao %></td>
+            <td><%= contum.cadastro %></td>
+            <td><%= contum.referencia %></td>
+            <td><%= contum.vencimento %></td>
+            <td><%= contum.valor %></td>
+            <td><%= link_to 'Show', contum %></td>
+        <td><%= link_to 'Edit', edit_contum_path(contum) %></td>
+        <td><%= link_to 'Destroy', contum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      
+      <% end %>
+     
+      
+    </tbody>
+  </table>
+</div>
+<div class="pull-right"> 
+ <b><%= @conta.sum(:valor) %></b>
+</div>

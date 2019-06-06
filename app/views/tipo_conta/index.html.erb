@@ -1,0 +1,29 @@
+<div class="page-header">
+  <%= link_to new_tipo_contum_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Tipo contum
+  <% end %>
+  <h1>Listing tipo_conta</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+            <th>Descricao</th>
+            <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @tipo_conta) do |tipo_contum| %>
+            <td><%= tipo_contum.descricao %></td>
+            <td><%= link_to 'Show', tipo_contum %></td>
+        <td><%= link_to 'Edit', edit_tipo_contum_path(tipo_contum) %></td>
+        <td><%= link_to 'Destroy', tipo_contum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

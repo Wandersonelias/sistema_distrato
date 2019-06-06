@@ -1,0 +1,13 @@
+<div class="page-header">
+  <%= link_to "/entregas", class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Voltar
+  <% end %>
+  <%= link_to @reparo, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-info-sign"></span>
+    Editar
+  <% end %>
+  <h1>Editar</h1>
+</div>
+
+<%= render 'form' %>

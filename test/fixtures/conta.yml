@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tipo_conta: one
+  cadastro: MyString
+  referencia: MyString
+  vencimento: MyString
+  valor: 9.99
+
+two:
+  tipo_conta: two
+  cadastro: MyString
+  referencia: MyString
+  vencimento: MyString
+  valor: 9.99

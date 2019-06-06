@@ -1,0 +1,66 @@
+<%= form_for(@entrega, html: { class: "form-horizontal", role: "form" }) do |f| %>
+  <% if @entrega.errors.any? %>
+    <div class="alert alert-danger alert-dismissable" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4><%= pluralize(@entrega.errors.count, "error") %> prohibited this entrega from being saved:</h4>
+
+      <ul>
+      <% @entrega.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= f.label :nome, class: "col-sm-1 control-label" %>
+    <div class="col-sm-5">
+      <%= f.text_field :nome, class: "form-control" %>
+    </div>
+
+    <%= f.label :endereco, class: "col-sm-1 control-label" %>
+    <div class="col-sm-5">
+      <%= f.text_field :endereco, class: "form-control" %>
+    </div>
+    </br></br>
+
+    <%= f.label :processo, class: "col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :processo, class: "form-control" %>
+    </div>
+    <%= f.label :implemento, class: "col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :implemento, class: "form-control" %>
+    </div>
+    <%= f.label :multa, class: "col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :multa, class: "form-control" %>
+    </div>
+    <%= f.label :condominio, class: "col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :condominio, class: "form-control" %>
+    </div></br></br>
+    <%= f.label :encargos, class: "col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :encargos, class: "form-control" %>
+    </div>
+    <%= f.label "Débitos", class: "col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :debito_diversos, class: "form-control" %>
+    </div>
+    <%= f.label "Créditos", class: "col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :credito, class: "form-control" %>
+    </div>
+    <%= f.label "Caução", class: "col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :caucao, class: "form-control" %>
+    </div></br></br>
+    
+    <div class="col-sm-offset-1 col-sm-2">
+      <%= f.submit "Salvar", class: "btn btn-primary" %>
+    </div>
+  
+  </div>
+  
+  </div>
+<% end %>

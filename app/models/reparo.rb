@@ -1,0 +1,2 @@
+class Reparo < ApplicationRecord
+end

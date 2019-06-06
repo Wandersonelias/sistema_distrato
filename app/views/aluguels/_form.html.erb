@@ -1,0 +1,51 @@
+<%= form_for(@aluguel, html: { class: "form-horizontal", role: "form" }) do |f| %>
+  <% if @aluguel.errors.any? %>
+    <div class="alert alert-danger alert-dismissable" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4><%= pluralize(@aluguel.errors.count, "error") %> prohibited this aluguel from being saved:</h4>
+
+      <ul>
+      <% @aluguel.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= f.label :entrega, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.collection_select :entrega_id, Entrega.all, :id, :nome, {}, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :periodo, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :periodo, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :data_vencimento, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :data_vencimento, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :previsao_pagamento, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :previsao_pagamento, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :valor_aluguel, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :valor_aluguel, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

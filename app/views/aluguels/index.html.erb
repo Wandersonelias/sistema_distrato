@@ -1,0 +1,41 @@
+<div class="page-header">
+  <%= link_to new_aluguel_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Aluguel
+  <% end %>
+  <h1>Listing aluguels</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+            <th>Id</th>
+            <th>Periodo</th>
+            <th>Data vencimento</th>
+            <th>Previsao pagamento</th>
+            <th>Valor aluguel</th>
+            <th>Multa</th>
+            <th>Juros</th>
+            <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @aluguels) do |aluguel| %>
+            
+            <td><%= aluguel.periodo %></td>
+            <td><%= aluguel.data_vencimento %></td>
+            <td><%= aluguel.previsao_pagamento %></td>
+            <td><%= number_with_precision(aluguel.valor_aluguel, :precision => 2) %></td>
+            <td><%= number_with_precision(aluguel.multa, :precision => 2) %></td>
+            <td><%= number_with_precision(aluguel.juros, :precision => 2) %></td>
+            <td><%= link_to 'Show', aluguel %></td>
+        <td><%= link_to 'Edit', edit_aluguel_path(aluguel) %></td>
+        <td><%= link_to 'Destroy', aluguel, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

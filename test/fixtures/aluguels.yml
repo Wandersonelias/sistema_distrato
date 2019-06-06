@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  periodo: MyString
+  data_vencimento: MyString
+  previsao_pagamento: MyString
+  valor_aluguel: 9.99
+  multa: 9.99
+  juros: 9.99
+
+two:
+  periodo: MyString
+  data_vencimento: MyString
+  previsao_pagamento: MyString
+  valor_aluguel: 9.99
+  multa: 9.99
+  juros: 9.99

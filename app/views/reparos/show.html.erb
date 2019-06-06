@@ -1,0 +1,20 @@
+<div class="page-header">
+  <%= link_to "/entregas", class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Voltar
+  <% end %>
+  <%= link_to edit_reparo_path(@reparo), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <h1>Reparos</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Descricao:</dt>
+  <dd><%= @reparo.descricao %></dd>
+
+  <dt>Valor:</dt>
+  <dd><%= @reparo.valor %></dd>
+
+</dl>

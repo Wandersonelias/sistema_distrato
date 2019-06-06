@@ -1,0 +1,32 @@
+<div class="page-header">
+  <%= link_to entregas_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Voltar
+  <% end %>
+  <%= link_to edit_aluguel_path(@aluguel), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit
+  <% end %>
+  <h1>Show aluguel</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Periodo:</dt>
+  <dd><%= @aluguel.periodo %></dd>
+
+  <dt>Data vencimento:</dt>
+  <dd><%= @aluguel.data_vencimento %></dd>
+
+  <dt>Previsao pagamento:</dt>
+  <dd><%= @aluguel.previsao_pagamento %></dd>
+
+  <dt>Valor aluguel:</dt>
+  <dd><%= @aluguel.valor_aluguel %></dd>
+
+  <dt>Multa:</dt>
+  <dd><%= @aluguel.multa %></dd>
+
+  <dt>Juros:</dt>
+  <dd><%= @aluguel.juros %></dd>
+
+</dl>
