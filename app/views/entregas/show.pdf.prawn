@@ -117,7 +117,7 @@ prawn_document(page_layout: :portrait) do |pdf|
     pdf.table([["DÉBITOS DIVERSOS", @entrega.debito_diversos]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
     pdf.table([["CRÉDITO", @entrega.credito]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
     pdf.table([["CAUÇÃO", @entrega.caucao]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
-    pdf.table([["TOTAL", @entrega.endereco]], :column_widths => [120,120], :cell_style => {:size => 8, :font_style => :bold}, :position => :center)
+    pdf.table([["TOTAL", "R$ 1000,00"]], :column_widths => [120,120], :cell_style => {:size => 8, :font_style => :bold}, :position => :center)
 
     pdf.move_down(20)
     pdf.table([["CAPITAL IMÓVEIS EIRELLI - EPP", " ", "#{@entrega.nome.upcase}"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
