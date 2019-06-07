@@ -92,14 +92,11 @@ prawn_document(page_layout: :portrait) do |pdf|
         pdf.stroke_horizontal_rule
     }
     pdf.move_down(2)
-        pdf.table([["Tipo","Cadastro","Referencia", "Vencimento", "Valor R$"]],:row_colors => ["FCE016"],:column_widths => [60,60,120,150,130],:cell_style => {:size => 8, :font_style => :bold, :align => :center })
-        @conta.each do |cea|
-            if cea.tipo_contum.id == 1
+        pdf.table([["Descrição","Valor"]],:row_colors => ["FCE016"],:column_widths => [340,180],:cell_style => {:size => 8, :font_style => :bold, :align => :center })
+        @reparos.each do |reparo|
             pdf.table([
-                [cea.tipo_contum.descricao, cea.cadastro, cea.referencia, cea.vencimento, number_with_precision(cea.valor, :precision => 2)]
-                ], :column_widths => [60,60,120,150,130],:cell_style => {:size => 8}
+                [reparo.descricao, number_with_precision(reparo.valor, :precision => 2)]], :column_widths => [340,180],:cell_style => {:size => 8}
             )
-            end
         end
     pdf.move_down(5)
     #end
