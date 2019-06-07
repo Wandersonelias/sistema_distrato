@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_06_133225) do
+ActiveRecord::Schema.define(version: 2019_06_06_235518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2019_06_06_133225) do
     t.decimal "debito_diversos"
     t.decimal "credito"
     t.decimal "caucao"
+    t.boolean "situacao", default: false
   end
 
   create_table "reparos", force: :cascade do |t|

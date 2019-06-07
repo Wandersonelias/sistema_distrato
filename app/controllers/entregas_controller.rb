@@ -4,7 +4,7 @@ class EntregasController < ApplicationController
   # GET /entregas
   # GET /entregas.json
   def index
-    @entregas = Entrega.all
+    @entregas = Entrega.where(:situacao => 0)
   end
 
   # GET /entregas/1
@@ -18,6 +18,7 @@ class EntregasController < ApplicationController
 
   # GET /entregas/new
   def new
+
     @entrega = Entrega.new
   end
 
@@ -43,11 +44,15 @@ class EntregasController < ApplicationController
 
 
   def teste
-      
       @entrega = Entrega.find(params[:id])
-      @entrega.update(:processo => 333)
-      redirect_to entregas_path
+      if @entrega.update(:situacao => 1)
+        respond_to do |format|
+          format.html { redirect_to entregas_url, notice: 'Entrega finalizada com sucesso.' }
+          format.json { head :no_content }
+        end
+      end
 
+      
   end
 
   # PATCH/PUT /entregas/1
@@ -82,6 +87,6 @@ class EntregasController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def entrega_params
-      params.require(:entrega).permit(:nome, :endereco, :processo, :implemento, :multa, :condominio, :encargos, :debito_diversos, :credito, :caucao)
+      params.require(:entrega).permit(:nome, :endereco, :processo, :implemento, :multa, :condominio, :encargos, :debito_diversos, :credito, :caucao, :situacao)
     end
 end

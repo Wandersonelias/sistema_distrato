@@ -8,8 +8,8 @@ Rails.application.routes.draw do
   resources :conta
   resources :tipo_conta
   resources :aluguels
-
-  put '/entregas/teste/:id', to: "entregas#teste"
+  get '/entregas/teste/:id', to: "entregas#teste"
+  #put '/entregas/teste/:id', to: "entregas#teste"
 
 
 

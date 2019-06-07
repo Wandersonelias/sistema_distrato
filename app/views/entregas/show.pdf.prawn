@@ -27,7 +27,7 @@ prawn_document(page_layout: :portrait) do |pdf|
         pdf.stroke_horizontal_rule
     }
     pdf.move_down(5)
-    pdf.table([["Periodo","Vencimento", "Previsão de pagamento", "Valor Aluguel R$", "Multa 10%", "Juros"]],:row_colors => ["FCE016"],:column_widths => [50,75,150,100,75,70], :cell_style => {:size => 9, :font_style => :bold})
+    pdf.table([["Periodo","Vencimento", "Previsão de pagamento", "Valor Aluguel R$", "Multa 10%", "Juros"]],:row_colors => ["FCE016"],:column_widths => [50,75,150,100,75,70], :cell_style => {:size => 8, :font_style => :bold})
     @aluguels.each do |v|
         pdf.table([
             [v.periodo, v.data_vencimento, v.previsao_pagamento, number_with_precision(v.valor_aluguel, :precision => 2) , number_with_precision(v.multa , :precision =>  2), number_with_precision(v.juros, :precision => 2)]
@@ -108,17 +108,27 @@ prawn_document(page_layout: :portrait) do |pdf|
         pdf.stroke_horizontal_rule
     }
     
-    pdf.pad(5){
-        pdf.table([["TOTAL DE DEBITO", "R$ 1223.34"]], :column_widths => [120, 120], :cell_style => {:size => 8}, :position => :center)
-        pdf.table([["IMPLEMENTO CONTRATUAL", @entrega.implemento]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
-        pdf.table([["MULTA CONTRATUAL", @entrega.multa]], :column_widths => [120,120], :cell_style => {:size => 8},:position => :center )
-        pdf.table([["TAXA CONDOMINIO", @entrega.condominio]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
-        pdf.table([["ENCARGOS ADM", @entrega.encargos]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
-        pdf.table([["DÉBITOS DIVERSOS", @entrega.debito_diversos]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
-        pdf.table([["CRÉDITO", @entrega.credito]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
-        pdf.table([["CAUÇÃO", @entrega.caucao]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
-        pdf.table([["TOTAL", @entrega.endereco]], :column_widths => [120,120], :cell_style => {:size => 8, :font_style => :bold}, :position => :center)
-    }
+    
+    pdf.table([["TOTAL DE DEBITO", "R$ 1223.34"]], :column_widths => [120, 120], :cell_style => {:size => 8 }, :position => :center, )
+    pdf.table([["IMPLEMENTO CONTRATUAL", @entrega.implemento]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
+    pdf.table([["MULTA CONTRATUAL", @entrega.multa]], :column_widths => [120,120], :cell_style => {:size => 8},:position => :center )
+    pdf.table([["TAXA CONDOMINIO", @entrega.condominio]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
+    pdf.table([["ENCARGOS ADM", @entrega.encargos]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
+    pdf.table([["DÉBITOS DIVERSOS", @entrega.debito_diversos]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
+    pdf.table([["CRÉDITO", @entrega.credito]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
+    pdf.table([["CAUÇÃO", @entrega.caucao]], :column_widths => [120,120], :cell_style => {:size => 8}, :position => :center )
+    pdf.table([["TOTAL", @entrega.endereco]], :column_widths => [120,120], :cell_style => {:size => 8, :font_style => :bold}, :position => :center)
+
+    pdf.move_down(20)
+    pdf.table([["CAPITAL IMÓVEIS EIRELLI - EPP", " ", "#{@entrega.nome.upcase}"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
+        row(0).columns(0).borders = [:top]
+        row(0).columns(1).borders = []
+        row(0).columns(2).borders = [:top]
+    end
+    pdf.table([["CNPJ/MF Nº 01.549.402/0001 - 02"," ", "CNPJ/CPF Nº 01.549.402/0001 - 02"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center, :borders => []})
+    
+    
+
 end
 
 
