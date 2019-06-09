@@ -26,19 +26,19 @@
   <dd><%= @entrega.processo %></dd>
   
   <dt>Implemento:</dt>
-  <dd><%= @entrega.implemento == nil  ? "0.00" : number_with_precision( @entrega.implemento , :precision => 2)  %></dd>
+  <dd><%= number_with_precision( @entrega.implemento , :precision => 2)  %></dd>
 
   <dt>Multa:</dt>
-  <dd><%= @entrega.multa == nil ? "0.00" : number_with_precision( @entrega.multa , :precision => 2) %></dd>
+  <dd><%= number_with_precision( @entrega.multa.to_d , :precision => 2) %></dd>
 
   <dt>Encargos ADM</dt>
-  <dd><%= @entrega.condominio == nil ? "0.00" : number_with_precision( @entrega.encargos , :precision => 2) %></dd>
+  <dd><%= number_with_precision( @entrega.encargos , :precision => 2) %></dd>
   <dt>Débitos diversos</dt>
-  <dd><%= @entrega.encargos == nil ? "0.00" : number_with_precision( @entrega.debito_diversos , :precision => 2) %></dd>
+  <dd><%= number_with_precision( @entrega.debito_diversos , :precision => 2) %></dd>
   <dt>Crédito:</dt>
-  <dd><%= @entrega.credito == nil ? "0.00" : number_with_precision( @entrega.credito , :precision => 2) %></dd>
+  <dd><%= number_with_precision( @entrega.credito , :precision => 2) %></dd>
   <dt>Caução:</dt>
-  <dd><%= @entrega.caucao == nil ? "0.00" : number_with_precision( @entrega.caucao , :precision => 2) %></dd>
+  <dd><%= number_with_precision( @entrega.caucao , :precision => 2) %></dd>
 
 </dl>
 <div class="page-header">

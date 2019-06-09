@@ -47,13 +47,13 @@ ActiveRecord::Schema.define(version: 2019_06_06_235518) do
     t.string "processo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "implemento"
-    t.decimal "multa"
-    t.decimal "condominio"
-    t.decimal "encargos"
-    t.decimal "debito_diversos"
-    t.decimal "credito"
-    t.decimal "caucao"
+    t.decimal "implemento", default: "0.0"
+    t.decimal "multa", default: "0.0"
+    t.decimal "condominio", default: "0.0"
+    t.decimal "encargos", default: "0.0"
+    t.decimal "debito_diversos", default: "0.0"
+    t.decimal "credito", default: "0.0"
+    t.decimal "caucao", default: "0.0"
     t.boolean "situacao", default: false
   end
 

@@ -14,7 +14,7 @@
   <div class="form-group">
     <%= f.label :entrega, class: "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.collection_select :entrega_id, Entrega.all, :id, :nome, {}, class: "form-control" %>
+      <%= f.collection_select :entrega_id, Entrega.where(:situacao => 0), :id, :nome, {}, class: "form-control" %>
     </div>
   </div>
 
