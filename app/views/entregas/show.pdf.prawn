@@ -103,6 +103,33 @@ prawn_document(page_layout: :portrait) do |pdf|
        
 
     #fim
+
+    pdf.formatted_text [ { :text => "RESUMO", :styles => [:bold] }] , :align => :center 
+    
+    pdf.table([["TOTAL DE DEBITO", "R$ 1223.34"]], :column_widths => [120, 120], :cell_style => {:size => 7 }, :position => :center, )
+    pdf.table([["IMPLEMENTO CONTRATUAL", @entrega.implemento]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
+    pdf.table([["MULTA CONTRATUAL", @entrega.multa]], :column_widths => [120,120], :cell_style => {:size => 7},:position => :center )
+    pdf.table([["TAXA CONDOMINIO", @entrega.condominio]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
+    pdf.table([["ENCARGOS ADM", @entrega.encargos]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
+    pdf.table([["DÉBITOS DIVERSOS", @entrega.debito_diversos]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
+    pdf.table([["CRÉDITO", @entrega.credito]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
+    pdf.table([["CAUÇÃO", @entrega.caucao]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
+    pdf.table([["TOTAL", "R$ 1000,00"]], :column_widths => [120,120], :cell_style => {:size => 7, :font_style => :bold}, :position => :center)
+
+    pdf.move_down(20)
+    pdf.table([["CAPITAL IMÓVEIS EIRELLI - EPP", " ", "#{@entrega.nome.upcase}"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
+        row(0).columns(0).borders = [:top]
+        row(0).columns(1).borders = []
+        row(0).columns(2).borders = [:top]
+    end
+    pdf.table([["CNPJ/MF Nº 01.549.402/0001 - 02"," ", "CNPJ/CPF Nº 01.549.402/0001 - 02"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center, :borders => []})
+
+
+
+
+    #end
+
+
     pdf.table([["PARCIAL DE DÉBITOS", "R$ #{number_with_precision(total_debitos, :precision => 2)}"]], :column_widths => [120, 120], :cell_style => {:size => 7 }, :position => :center, )
     pdf.table([["IMPLEMENTO CONTRATUAL", "R$ #{ implemento}"]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
     pdf.table([["MULTA CONTRATUAL", "R$ 0.00 "]], :column_widths => [120,120], :cell_style => {:size => 7},:position => :center )
