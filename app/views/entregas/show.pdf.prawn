@@ -10,7 +10,7 @@ prawn_document(page_layout: :portrait) do |pdf|
     #Dados do locatario do imóevel - begin
     pdf.pad(5){
         pdf.table([["NOME", @entrega.nome, "CPF:", @entrega.processo ]], :column_widths => [50, 280, 50, 140], :cell_style => {:size => 7})
-        pdf.table([["ENDEREÇO", @entrega.endereco, "PROCESSO", @entrega.processo, "DATA:", @entrega.created_at.strftime("%d/%m/%Y")]], :column_widths => [50, 280, 50, 50, 40, 50], :cell_style => {:size => 7})
+        pdf.table([["ENDEREÇO", @entrega.endereco, "PROCESSO", @entrega.processo, "DATA:", @entrega.created_at.strftime("%d/%m/%Y")]], :column_widths => [50, 280, 50, 60, 30, 50], :cell_style => {:size => 7})
     }
     #end
     #--------------------------------------
@@ -88,57 +88,32 @@ prawn_document(page_layout: :portrait) do |pdf|
     pdf.move_down(5)
     #end
     pdf.formatted_text [ { :text => "RESUMO", :styles => [:bold] }] , :align => :center 
-    #variaves para axilio de calculos 
-       implemento = @entrega.implemento
-       #debugger
-       multa_entrega = @entrega.multa
-       condominio = @entrega.condominio
-       encargos = @entrega.encargos
-       debitosdiversos =  @entrega.debito_diversos
-       creditos = @entrega.credito
-       caucao = @entrega.caucao
-    
-       total_debitos = cea + caesa + iptu + total_juros
-       #total_geral = ((total_debitos + multa_entrega + implemento + condominio + encargos + debitosdiversos) - caucao) - creditos
-       
-
-    #fim
-
-    pdf.formatted_text [ { :text => "RESUMO", :styles => [:bold] }] , :align => :center 
-    
-    pdf.table([["TOTAL DE DEBITO", "R$ 1223.34"]], :column_widths => [120, 120], :cell_style => {:size => 7 }, :position => :center, )
+    #correção de bug para coagir nil em decimal
+    iptu == nil ? iptu = 0 : number_with_precision(iptu, :precision => 2)
+    caesa == nil ? caesa = 0 : number_with_precision(caesa, :precision => 2)
+    cea == nil ? cea = 0 : number_with_precision(cea, :precision => 2)
+    tt = total_juros.to_d + cea.to_d + caesa.to_d + iptu.to_d
+    # end
+    pdf.table([["TOTAL DE DEBITO", "R$ #{number_with_precision(tt, :precision => 2)}"]], :column_widths => [120, 120], :cell_style => {:size => 7 }, :position => :center, )
     pdf.table([["IMPLEMENTO CONTRATUAL", @entrega.implemento]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["MULTA CONTRATUAL", @entrega.multa]], :column_widths => [120,120], :cell_style => {:size => 7},:position => :center )
+    pdf.table([["MULTA CONTRATUAL", number_with_precision(@entrega.multa, :precision => 2)]], :column_widths => [120,120], :cell_style => {:size => 7},:position => :center )
     pdf.table([["TAXA CONDOMINIO", @entrega.condominio]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
     pdf.table([["ENCARGOS ADM", @entrega.encargos]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
     pdf.table([["DÉBITOS DIVERSOS", @entrega.debito_diversos]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
     pdf.table([["CRÉDITO", @entrega.credito]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
     pdf.table([["CAUÇÃO", @entrega.caucao]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["TOTAL", "R$ 1000,00"]], :column_widths => [120,120], :cell_style => {:size => 7, :font_style => :bold}, :position => :center)
-
-    pdf.move_down(20)
-    pdf.table([["CAPITAL IMÓVEIS EIRELLI - EPP", " ", "#{@entrega.nome.upcase}"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
-        row(0).columns(0).borders = [:top]
-        row(0).columns(1).borders = []
-        row(0).columns(2).borders = [:top]
-    end
-    pdf.table([["CNPJ/MF Nº 01.549.402/0001 - 02"," ", "CNPJ/CPF Nº 01.549.402/0001 - 02"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center, :borders => []})
+        implemento = @entrega.implemento
+        multa_entrega = @entrega.multa
+        condominio = @entrega.condominio
+        encargos = @entrega.encargos
+        debito_diversos = @entrega.debito_diversos
+        creditos = @entrega.credito
+        caucao = @entrega.caucao
 
 
-
-
-    #end
-
-
-    pdf.table([["PARCIAL DE DÉBITOS", "R$ #{number_with_precision(total_debitos, :precision => 2)}"]], :column_widths => [120, 120], :cell_style => {:size => 7 }, :position => :center, )
-    pdf.table([["IMPLEMENTO CONTRATUAL", "R$ #{ implemento}"]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["MULTA CONTRATUAL", "R$ 0.00 "]], :column_widths => [120,120], :cell_style => {:size => 7},:position => :center )
-    pdf.table([["TAXA CONDOMINIO", "R$ #{ condominio}"]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["ENCARGOS ADM", "R$ #{ encargos}"]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["DÉBITOS DIVERSOS", "R$ #{ debitosdiversos}"]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["CRÉDITO", "R$ #{creditos}"]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["CAUÇÃO", "R$ #{caucao}"]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["TOTAL", "R$ #{number_with_precision(total_debitos, :precision => 2)}"]], :column_widths => [120,120], :cell_style => {:size => 7, :font_style => :bold}, :position => :center)
+    tp = ((multa_entrega + implemento + condominio + encargos + debito_diversos) - creditos) - caucao
+    
+    pdf.table([["TOTAL", "R$ #{tp}"]], :column_widths => [120,120], :cell_style => {:size => 7, :font_style => :bold}, :position => :center)
 
     pdf.move_down(20)
     pdf.table([["CAPITAL IMÓVEIS EIRELLI - EPP", " ", "#{@entrega.nome.upcase}"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
