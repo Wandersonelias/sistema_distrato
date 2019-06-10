@@ -88,8 +88,13 @@ prawn_document(page_layout: :portrait) do |pdf|
     pdf.move_down(5)
     #end
     pdf.formatted_text [ { :text => "RESUMO", :styles => [:bold] }] , :align => :center 
-    
-    pdf.table([["TOTAL DE DEBITO", "R$ 1223.34"]], :column_widths => [120, 120], :cell_style => {:size => 7 }, :position => :center, )
+    #correção de bug para coagir nil em decimal
+    iptu == nil ? iptu = 0 : number_with_precision(iptu, :precision => 2)
+    caesa == nil ? caesa = 0 : number_with_precision(caesa, :precision => 2)
+    cea == nil ? cea = 0 : number_with_precision(cea, :precision => 2)
+    tt = total_juros.to_d + cea.to_d + caesa.to_d + iptu.to_d
+    # end
+    pdf.table([["TOTAL DE DEBITO", "R$ #{number_with_precision(tt, :precision => 2)}"]], :column_widths => [120, 120], :cell_style => {:size => 7 }, :position => :center, )
     pdf.table([["IMPLEMENTO CONTRATUAL", @entrega.implemento]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
     pdf.table([["MULTA CONTRATUAL", number_with_precision(@entrega.multa, :precision => 2)]], :column_widths => [120,120], :cell_style => {:size => 7},:position => :center )
     pdf.table([["TAXA CONDOMINIO", @entrega.condominio]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
