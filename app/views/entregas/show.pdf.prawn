@@ -10,7 +10,7 @@ prawn_document(page_layout: :portrait) do |pdf|
     #Dados do locatario do imóevel - begin
     pdf.pad(5){
         pdf.table([["NOME", @entrega.nome, "CPF:", @entrega.processo ]], :column_widths => [50, 280, 50, 140], :cell_style => {:size => 7})
-        pdf.table([["ENDEREÇO", @entrega.endereco, "PROCESSO", @entrega.processo, "DATA:", @entrega.created_at.strftime("%d/%m/%Y")]], :column_widths => [50, 280, 50, 50, 40, 50], :cell_style => {:size => 7})
+        pdf.table([["ENDEREÇO", @entrega.endereco, "PROCESSO", @entrega.processo, "DATA:", @entrega.created_at.strftime("%d/%m/%Y")]], :column_widths => [50, 280, 50, 60, 30, 50], :cell_style => {:size => 7})
     }
     #end
     #--------------------------------------
@@ -97,12 +97,18 @@ prawn_document(page_layout: :portrait) do |pdf|
     pdf.table([["DÉBITOS DIVERSOS", @entrega.debito_diversos]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
     pdf.table([["CRÉDITO", @entrega.credito]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
     pdf.table([["CAUÇÃO", @entrega.caucao]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    multa_entrega = @entrega.multa
-    implemento = @entrega.implemento
+        implemento = @entrega.implemento
+        multa_entrega = @entrega.multa
+        condominio = @entrega.condominio
+        encargos = @entrega.encargos
+        debito_diversos = @entrega.debito_diversos
+        creditos = @entrega.credito
+        caucao = @entrega.caucao
 
-    tt = multa_entrega + implemento
 
-    pdf.table([["TOTAL", "R$ #{tt}"]], :column_widths => [120,120], :cell_style => {:size => 7, :font_style => :bold}, :position => :center)
+    tp = ((multa_entrega + implemento + condominio + encargos + debito_diversos) - creditos) - caucao
+    
+    pdf.table([["TOTAL", "R$ #{tp}"]], :column_widths => [120,120], :cell_style => {:size => 7, :font_style => :bold}, :position => :center)
 
     pdf.move_down(20)
     pdf.table([["CAPITAL IMÓVEIS EIRELLI - EPP", " ", "#{@entrega.nome.upcase}"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
