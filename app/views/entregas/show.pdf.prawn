@@ -2,7 +2,7 @@ prawn_document(page_layout: :portrait) do |pdf|
     #Cabeçalho do documento - begin
     pdf.move_up(25)
     pdf.pad_top(5){
-        pdf.image "#{Rails.root}/app/assets/images/superman.jpg", :width => 60, :height => 50 
+        pdf.image "#{Rails.root}/app/assets/images/Logo.png", :width => 110, :height => 50 
                 
     }
     pdf.formatted_text [ { :text => "DEMONSTRATIVO DE DÉBITO DO IMÓVEL", :styles => [:bold] }] , :align => :center 
