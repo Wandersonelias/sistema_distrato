@@ -114,17 +114,40 @@ prawn_document(page_layout: :portrait) do |pdf|
     tp = ((multa_entrega + implemento + condominio + encargos + debito_diversos) - creditos) - caucao
     
     pdf.table([["TOTAL", "R$ #{tp}"]], :column_widths => [120,120], :cell_style => {:size => 7, :font_style => :bold}, :position => :center)
+    #roddape assinatura --- 
+    pdf.move_down(80)
 
-    pdf.move_down(20)
-    pdf.table([["CAPITAL IMÓVEIS EIRELLI - EPP", " ", "#{@entrega.nome.upcase}"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
-        row(0).columns(0).borders = [:top]
-        row(0).columns(1).borders = []
-        row(0).columns(2).borders = [:top]
+    
+    #pdf.table([["CAPITAL IMÓVEIS EIRELLI - EPP", " ", "#{@entrega.nome.upcase}"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
+    #    row(0).columns(0).borders = [:top]
+    #    row(0).columns(1).borders = []
+    #    row(0).columns(2).borders = [:top]
+    #end
+    #pdf.table([["CNPJ/MF Nº 01.549.402/0001 - 02"," ", "CNPJ/CPF Nº 01.549.402/0001 - 02"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center, :borders => []})
+    #
+    pdf.bounding_box([0, 40], :width => 520, :height => 100, :align => :center) do
+        
+        pdf.move_down(5)
+        pdf.table([["CAPITAL IMÓVEIS EIRELLI - EPP", " ", "#{@entrega.nome.upcase}"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
+            row(0).columns(0).borders = [:top]
+            row(0).columns(1).borders = []
+            row(0).columns(2).borders = [:top]
+        end
+        pdf.table([["CNPJ/MF Nº 01.549.402/0001 - 02"," ", "CNPJ/CPF Nº 01.549.402/0001 - 02"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center, :borders => []})
+    
     end
-    pdf.table([["CNPJ/MF Nº 01.549.402/0001 - 02"," ", "CNPJ/CPF Nº 01.549.402/0001 - 02"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center, :borders => []})
-    
-    
+    #pagina com detalhes
 
+    pdf.start_new_page
+    pdf.move_up(25)
+    pdf.pad_top(5){
+        pdf.image "#{Rails.root}/app/assets/images/Logo.png", :width => 120, :height => 40 
+                
+    }
+    pdf.formatted_text [ { :text => "OBSERVAÇÕES GERAIS", :styles => [:bold] }] , :align => :center    
+    
 end
+
+
 
 
