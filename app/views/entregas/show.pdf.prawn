@@ -145,35 +145,45 @@ prawn_document(page_layout: :portrait) do |pdf|
                 
     }
     pdf.formatted_text [ { :text => "OBSERVAÇÕES GERAIS", :styles => [:bold] }] , :align => :center
-    pdf.bounding_box([0, 735], :width => 520, :height => 150, :align => :center) do
+    #listagem de observações de CEA
+    pdf.bounding_box([0, 730], :width => 520, :height => 50, :align => :center) do
         pdf.stroke_bounds
         pdf.move_down(3)
-        #listagem de observações de CEA
+        
         pdf.formatted_text [ { :text => "CEA", :styles => [:bold] }] , :align => :center
         @conta.each do |cea|
             if cea.tipo_contum_id == 1
-                pdf.text "#{cea.observacao}"
+                pdf.text " * #{cea.observacao}"
             end
         end
-        #listagem de observações de CAESA
+    end
+    #listagem de observações de CAESA
+    pdf.bounding_box([0, 670], :width => 520, :height => 50, :align => :center) do
+    pdf.stroke_bounds
+        
         pdf.move_down(3)
         pdf.formatted_text [ { :text => "CAESA", :styles => [:bold] }] , :align => :center
         @conta.each do |caesa|
             if caesa.tipo_contum_id == 2
-                pdf.text "#{caesa.observacao}"
+                
+                    pdf.text "  * #{caesa.observacao} ", :align => :justify
+                
             end
         end
-        #listagem de observações  IPTU
+    end
+    #listagem de observações  IPTU
+    pdf.bounding_box([0, 610], :width => 520, :height => 50, :align => :center) do
+    pdf.stroke_bounds
         pdf.move_down(3)
         pdf.formatted_text [ { :text => "IPTU", :styles => [:bold] }] , :align => :center
         @conta.each do |iptu|
             if iptu.tipo_contum_id == 3
-                pdf.text "#{iptu.observacao}"
+                pdf.text " *  #{iptu.observacao}"
             end
         end
-        
+    end    
     
-    end 
+    
     pdf.move_down(5)
     pdf.formatted_text [ { :text => "CONTAS A PAGAR", :styles => [:bold] }] , :align => :center
     pdf.move_down(5)
