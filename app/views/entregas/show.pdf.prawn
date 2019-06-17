@@ -144,7 +144,101 @@ prawn_document(page_layout: :portrait) do |pdf|
         pdf.image "#{Rails.root}/app/assets/images/Logo.png", :width => 120, :height => 40 
                 
     }
-    pdf.formatted_text [ { :text => "OBSERVAÇÕES GERAIS", :styles => [:bold] }] , :align => :center    
+    pdf.formatted_text [ { :text => "OBSERVAÇÕES GERAIS", :styles => [:bold] }] , :align => :center
+    pdf.bounding_box([0, 735], :width => 520, :height => 150, :align => :center) do
+        pdf.stroke_bounds
+        pdf.move_down(3)
+        #listagem de observações de CEA
+        pdf.formatted_text [ { :text => "CEA", :styles => [:bold] }] , :align => :center
+        @conta.each do |cea|
+            if cea.tipo_contum_id == 1
+                pdf.text "#{cea.observacao}"
+            end
+        end
+        #listagem de observações de CAESA
+        pdf.move_down(3)
+        pdf.formatted_text [ { :text => "CAESA", :styles => [:bold] }] , :align => :center
+        @conta.each do |caesa|
+            if caesa.tipo_contum_id == 2
+                pdf.text "#{caesa.observacao}"
+            end
+        end
+        #listagem de observações  IPTU
+        pdf.move_down(3)
+        pdf.formatted_text [ { :text => "IPTU", :styles => [:bold] }] , :align => :center
+        @conta.each do |iptu|
+            if iptu.tipo_contum_id == 3
+                pdf.text "#{iptu.observacao}"
+            end
+        end
+        
+    
+    end 
+    pdf.move_down(5)
+    pdf.formatted_text [ { :text => "CONTAS A PAGAR", :styles => [:bold] }] , :align => :center
+    pdf.move_down(5)
+    pdf.text " Recebemos do(a) #{@entrega.nome.upcase}, a importancia de R$ #{number_with_precision(cea , :precision => 2)}  referente a"
+        pdf.text " a quitação das contas de CEA conforme quadro demostrativo a abaixo:"
+    pdf.table([["Tipo","Cadastro","Referencia", "Vencimento", "Valor R$"]],:row_colors => ["FCE016"],:column_widths => [60,60,120,150,130], :cell_style => {:size => 7})
+    @conta.each do |cea|
+        if cea.tipo_contum.id == 1
+        pdf.table([
+            [cea.tipo_contum.descricao, cea.cadastro, cea.referencia, cea.vencimento, number_with_precision(cea.valor, :precision => 2)]
+            ], :column_widths => [60,60,120,150,130],:cell_style => {:size => 7}
+        )
+        end
+    end
+    pdf.table([["Total","#{number_with_precision(cea = @conta.where(:tipo_contum => 1).sum(:valor), :precision => 2)}"]], :column_widths => [390,130], :cell_style => {:size => 7})
+    pdf.move_down(5)
+    if @conta.where(:tipo_contum_id => 2).present?
+        pdf.text " Recebemos do(a) #{@entrega.nome.upcase}, a importancia de R$ #{number_with_precision(caesa , :precision => 2)}  referente a"
+        pdf.text " a quitação das contas da CAESA conforme quadro demostrativo a abaixo:"
+        pdf.table([["Tipo","Cadastro","Referencia", "Vencimento", "Valor R$"]],:row_colors => ["FCE016"],:column_widths => [60,60,120,150,130],:cell_style => {:size => 7})
+        @conta.each do |caesa|
+            if caesa.tipo_contum.id == 2
+            pdf.table([
+                [caesa.tipo_contum.descricao,caesa.cadastro, caesa.referencia, (DateTime.parse(caesa.vencimento) + 5).strftime("%d/%m/%Y"), number_with_precision(caesa.valor, :precision => 2)]
+                ], :column_widths => [60,60,120,150,130],:cell_style => {:size => 7}
+            )
+            end
+        end
+        pdf.table([["Total","#{number_with_precision(caesa = @conta.where(:tipo_contum => 2).sum(:valor), :precision => 2)}"]], :column_widths => [390,130], :cell_style => {:size => 7})    
+    else
+        pdf.table([["O IMÓVEL POSSUI POSSO ARTESIANO - NA HÁ DEBITOS DE CAESA "]], :column_widths => [520],:cell_style => {:size => 7, :font_style => :bold, :align => :center })
+    end
+#END 
+    pdf.move_down(5)
+    if @conta.where(:tipo_contum_id => 3).present?
+        pdf.text " Recebemos do(a) #{@entrega.nome.upcase}, a importancia de R$ #{number_with_precision(iptu , :precision => 2)}  referente a"
+        pdf.text " a quitação das contas de IPTU conforme quadro demostrativo a abaixo:"
+            pdf.table([["Tipo","Cadastro","Referencia", "Vencimento", "Valor R$"]],:row_colors => ["FCE016"],:column_widths => [60,60,120,150,130], :cell_style => {:size => 7})
+            @conta.each do |iptu|
+                if iptu.tipo_contum.id == 3
+                pdf.table([
+                    [iptu.tipo_contum.descricao,iptu.cadastro, iptu.referencia, iptu.vencimento, number_with_precision(iptu.valor, :precision => 2)]
+                    ], :column_widths => [60,60,120,150,130],:cell_style => {:size => 7}
+                )
+            end
+        end
+        pdf.table([["Total","#{number_with_precision(iptu = @conta.where(:tipo_contum => 3).sum(:valor), :precision => 2)}"]], :column_widths => [390,130], :cell_style => {:size => 7})
+    else        
+        pdf.table([["NÃO HA DEBITOS DE IPTU"]], :column_widths => [520],:cell_style => {:size => 7, :font_style => :bold, :align => :center })           
+    end
+    #Rodapé da pagina
+    pdf.bounding_box([0, 40], :width => 520, :height => 100, :align => :center) do
+        
+        pdf.move_down(5)
+        pdf.table([["CAPITAL IMÓVEIS EIRELLI - EPP", " ", "#{@entrega.nome.upcase}"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
+            row(0).columns(0).borders = [:top]
+            row(0).columns(1).borders = []
+            row(0).columns(2).borders = [:top]
+        end
+        pdf.table([["CNPJ/MF Nº 01.549.402/0001 - 02"," ", "CNPJ/CPF Nº 01.549.402/0001 - 02"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center, :borders => []})
+    
+    end
+    
+    
+      
     
 end
 

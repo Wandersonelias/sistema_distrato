@@ -69,6 +69,6 @@ class ContaController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def contum_params
-      params.require(:contum).permit(:entrega_id, :tipo_contum_id, :cadastro, :referencia, :vencimento, :valor)
+      params.require(:contum).permit(:entrega_id, :tipo_contum_id, :cadastro, :referencia, :vencimento, :valor, :observacao)
     end
 end
