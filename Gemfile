@@ -40,6 +40,7 @@ gem 'bootstrap-generators', '~> 3.3.4'
 gem 'devise'
 gem 'record_tag_helper', '~> 1.0'
 gem 'prawn-rails'
+gem 'devise'
 #-------------------------------------------
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
