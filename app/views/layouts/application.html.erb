@@ -36,8 +36,17 @@
           <li <% if params["controller"] == "contas"  %> class="active"  <% end %>><a href="/conta/new">Contas</a></li>
           <li <% if params["controller"] == "reparos" %> class="active"  <% end %>> <a href="/reparos/new">Reparos</a></li>
         </ul>
+        <ul class="nav navbar-nav pull-right">
+        <li><a><%= current_user.nome %></a></li>
+        <li>
+          <%= link_to 'Sair', destroy_user_session_path, method: :delete %>
+        </li>
+        </ul>
       </div>
     </div>
+    
+          
+    
   </nav>
   <div class="container">
     <% flash.each do |name, msg| %>

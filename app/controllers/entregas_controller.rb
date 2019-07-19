@@ -4,7 +4,8 @@ class EntregasController < ApplicationController
   # GET /entregas
   # GET /entregas.json
   def index
-    @entregas = Entrega.where(:situacao => 0)
+    @entregas = Entrega.where(:situacao => 0, :user_id => current_user.id)
+  
   end
 
   # GET /entregas/1
@@ -29,8 +30,9 @@ class EntregasController < ApplicationController
   # POST /entregas
   # POST /entregas.json
   def create
+    
     @entrega = Entrega.new(entrega_params)
-
+    @entrega.user_id = current_user.id
     respond_to do |format|
       if @entrega.save
         format.html { redirect_to @entrega, notice: 'Entrega was successfully created.' }
@@ -87,6 +89,6 @@ class EntregasController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def entrega_params
-      params.require(:entrega).permit(:nome, :endereco, :processo, :implemento, :multa, :condominio, :encargos, :debito_diversos, :credito, :caucao, :situacao)
+      params.require(:entrega).permit(:nome, :endereco, :processo, :implemento, :multa, :condominio, :encargos, :debito_diversos, :credito, :caucao, :situacao, :user_id)
     end
 end

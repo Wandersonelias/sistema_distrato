@@ -238,7 +238,7 @@ prawn_document(page_layout: :portrait) do |pdf|
     pdf.bounding_box([0, 40], :width => 520, :height => 100, :align => :center) do
         
         pdf.move_down(5)
-        pdf.table([["SETOR FINANCEIRO", " ", "SETOR DE CONTRATOS"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
+        pdf.table([["SETOR FINANCEIRO - #{ }", " ", "SETOR DE CONTRATOS"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
             row(0).columns(0).borders = [:top]
             row(0).columns(1).borders = []
             row(0).columns(2).borders = [:top]

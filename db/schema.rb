@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_21_141002) do
+ActiveRecord::Schema.define(version: 2019_07_19_004638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,17 @@ ActiveRecord::Schema.define(version: 2019_06_21_141002) do
     t.decimal "credito", default: "0.0"
     t.decimal "caucao", default: "0.0"
     t.boolean "situacao", default: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_entregas_on_user_id"
+  end
+
+  create_table "funcionarios", force: :cascade do |t|
+    t.string "nome"
+    t.string "setor"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_funcionarios_on_user_id"
   end
 
   create_table "reparos", force: :cascade do |t|
@@ -81,6 +92,8 @@ ActiveRecord::Schema.define(version: 2019_06_21_141002) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "nome"
+    t.string "setor"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -88,5 +101,7 @@ ActiveRecord::Schema.define(version: 2019_06_21_141002) do
   add_foreign_key "aluguels", "entregas"
   add_foreign_key "conta", "entregas"
   add_foreign_key "conta", "tipo_conta"
+  add_foreign_key "entregas", "users"
+  add_foreign_key "funcionarios", "users"
   add_foreign_key "reparos", "entregas"
 end
