@@ -134,7 +134,8 @@ prawn_document(page_layout: :portrait) do |pdf|
             row(0).columns(2).borders = [:top]
         end
         pdf.table([["CNPJ/MF Nº 01.549.402/0001 - 02"," ", "CNPJ/CPF Nº 01.549.402/0001 - 02"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center, :borders => []})
-    
+        pdf.move_down(10)
+        pdf.text "Impresso por: #{@entrega.user.nome} - #{DateTime.now.strftime("%d/%m/%Y - %H:%M:%Sh")}" , :align => :right
     end
     #pagina com detalhes
 
@@ -238,13 +239,16 @@ prawn_document(page_layout: :portrait) do |pdf|
     pdf.bounding_box([0, 40], :width => 520, :height => 100, :align => :center) do
         
         pdf.move_down(5)
-        pdf.table([["SETOR FINANCEIRO - #{ }", " ", "SETOR DE CONTRATOS"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
+        pdf.table([["SETOR FINANCEIRO", " ", "SETOR DE CONTRATOS"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center}) do
             row(0).columns(0).borders = [:top]
             row(0).columns(1).borders = []
             row(0).columns(2).borders = [:top]
         end
+        
         #pdf.table([["CNPJ/MF Nº 01.549.402/0001 - 02"," ", "CNPJ/CPF Nº 01.549.402/0001 - 02"]], :column_widths => [240,40,240], :cell_style => {:size => 9, :align => :center, :borders => []})
-    
+        pdf.move_down(25)
+
+        pdf.text "Impresso por: #{@entrega.user.nome} - #{DateTime.now.strftime("%d/%m/%Y - %H:%M:%S")}" , :align => :right
     end
     
     
