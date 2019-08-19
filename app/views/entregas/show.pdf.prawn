@@ -20,7 +20,7 @@ prawn_document(page_layout: :portrait) do |pdf|
     pdf.table([["Periodo","Vencimento", "Previsão de pagamento", "Valor Aluguel R$", "Multa 10%", "Juros"]],:row_colors => ["FCE016"],:column_widths => [50,75,150,100,75,70], :cell_style => {:size => 7, :font_style => :bold})
     @aluguels.each do |v|
         pdf.table([
-            [v.periodo, v.data_vencimento, v.previsao_pagamento, number_with_precision(v.valor_aluguel, :precision => 2) , number_with_precision(v.multa , :precision =>  2), number_with_precision(v.juros, :precision => 2)]
+            [v.periodo, v.data_vencimento, v.previsao_pagamento, number_with_precision(v.valor_aluguel, :precision => 2) , number_with_precision(v.multa == 0 ? 0.00 : v.multa, :precision =>  2), number_with_precision(v.juros, :precision => 2)]
             ], :column_widths => [50,75,150,100,75,70],:cell_style => {:size => 7}
         )
     end
@@ -28,7 +28,7 @@ prawn_document(page_layout: :portrait) do |pdf|
     pdf.table([["Subtotal","#{number_with_precision(aluguel = @aluguels.sum(:valor_aluguel), :precision => 2)}","#{number_with_precision(multa = @aluguels.sum(:multa), :precision => 2)}","#{ number_with_precision(total_juros = @aluguels.sum(:juros), :precision => 2)}"]], :column_widths => [275,100,75,70], :cell_style => {:size => 7})
     #end
     #Row para total - begin
-    pdf.table([["Total","#{number_with_precision(total_juros, :precision => 2)}"]], :column_widths => [375,145], :cell_style => {:size => 7})
+    pdf.table([["Total","#{number_with_precision(total_juros == 0 ? aluguel : 0.00, :precision => 2)}"]], :column_widths => [375,145], :cell_style => {:size => 7})
     #end
     #Dados sobre contas publicas eachs com com ifs para filtrar por tipos - begin
     pdf.move_down(8)

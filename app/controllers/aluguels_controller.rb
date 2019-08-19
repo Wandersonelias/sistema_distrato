@@ -43,6 +43,9 @@ class AluguelsController < ApplicationController
       valor = @aluguel.valor_aluguel
       @aluguel.multa = ((valor * 10 ) / 100) + valor
       @aluguel.juros = ((((valor / 30) * 1) /100) * result_mora) + @aluguel.multa
+    else
+      @aluguel.multa = 0.00
+      @aluguel.juros = 0.00
     end
 
     respond_to do |format|
