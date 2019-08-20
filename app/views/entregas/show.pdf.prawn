@@ -77,20 +77,24 @@ prawn_document(page_layout: :portrait) do |pdf|
     end
     pdf.move_down(5)
     #Dados sobre reparos - begin
+    if @reparo.present?
     pdf.formatted_text [ { :text => "REPAROS", :styles => [:bold] }] , :align => :center 
-    pdf.move_down(2)
-        pdf.table([["Descrição","Valor"]],:row_colors => ["FCE016"],:column_widths => [340,180],:cell_style => {:size => 7, :font_style => :bold, :align => :center })
-        @reparos.each do |reparo|
-            pdf.table([
-                [reparo.descricao, number_with_precision(reparo.valor, :precision => 2)]], :column_widths => [340,180],:cell_style => {:size => 7}
-            )
-        end
+        pdf.move_down(2)
+            pdf.table([["Descrição","Valor"]],:row_colors => ["FCE016"],:column_widths => [340,180],:cell_style => {:size => 7, :font_style => :bold, :align => :center })
+            @reparos.each do |reparo|
+                pdf.table([
+                    [reparo.descricao, number_with_precision(reparo.valor, :precision => 2)]], :column_widths => [340,180],:cell_style => {:size => 7}
+                )
+            end
+    else
+        pdf.table([["NÃO HA DEBITOS REFERENTES A REPARAOS"]], :column_widths => [520],:cell_style => {:size => 7, :font_style => :bold, :align => :center })
+    end
     pdf.move_down(5)
     #end
     pdf.formatted_text [ { :text => "RESUMO", :styles => [:bold] }] , :align => :center 
     #correção de bug para coagir nil em decimal
-    iptu == nil ? iptu = 0 : number_with_precision(iptu, :precision => 2)
     caesa == nil ? caesa = 0 : number_with_precision(caesa, :precision => 2)
+    iptu == nil ? iptu = 0 : number_with_precision(iptu, :precision => 2)
     cea == nil ? cea = 0 : number_with_precision(cea, :precision => 2)
     tt = (total_juros == 0 ? aluguel : 0.00) + cea.to_d + caesa.to_d + iptu.to_d
     # ends
