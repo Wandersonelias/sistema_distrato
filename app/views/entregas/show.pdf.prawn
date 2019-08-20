@@ -92,8 +92,8 @@ prawn_document(page_layout: :portrait) do |pdf|
     iptu == nil ? iptu = 0 : number_with_precision(iptu, :precision => 2)
     caesa == nil ? caesa = 0 : number_with_precision(caesa, :precision => 2)
     cea == nil ? cea = 0 : number_with_precision(cea, :precision => 2)
-    tt = total_juros.to_d + cea.to_d + caesa.to_d + iptu.to_d
-    # end
+    tt = (total_juros == 0 ? aluguel : 0.00) + cea.to_d + caesa.to_d + iptu.to_d
+    # ends
     pdf.table([["TOTAL DE DEBITO", "R$ #{number_with_precision(tt, :precision => 2)}"]], :column_widths => [120, 120], :cell_style => {:size => 7 }, :position => :center, )
     pdf.table([["IMPLEMENTO CONTRATUAL", @entrega.implemento]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
     pdf.table([["MULTA CONTRATUAL", number_with_precision(@entrega.multa, :precision => 2)]], :column_widths => [120,120], :cell_style => {:size => 7},:position => :center )
@@ -111,7 +111,7 @@ prawn_document(page_layout: :portrait) do |pdf|
         caucao = @entrega.caucao
 
 
-    tp = ((multa_entrega + implemento + condominio + encargos + debito_diversos) - creditos) - caucao
+    tp = caucao - ((multa_entrega + implemento + condominio + encargos + debito_diversos + tt) - creditos)
     
     pdf.table([["TOTAL", "R$ #{tp}"]], :column_widths => [120,120], :cell_style => {:size => 7, :font_style => :bold}, :position => :center)
     #roddape assinatura --- 
