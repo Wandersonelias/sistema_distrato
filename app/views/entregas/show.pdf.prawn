@@ -91,34 +91,37 @@ prawn_document(page_layout: :portrait) do |pdf|
     end
     pdf.move_down(5)
     #end
-    pdf.formatted_text [ { :text => "RESUMO", :styles => [:bold] }] , :align => :center 
-    #correção de bug para coagir nil em decimal
-    caesa == nil ? caesa = 0 : number_with_precision(caesa, :precision => 2)
-    iptu == nil ? iptu = 0 : number_with_precision(iptu, :precision => 2)
-    cea == nil ? cea = 0 : number_with_precision(cea, :precision => 2)
-    tt = (total_juros == 0 ? aluguel : 0.00) + cea.to_d + caesa.to_d + iptu.to_d
-    # ends
-    pdf.table([["TOTAL DE DEBITO", "R$ #{number_with_precision(tt, :precision => 2)}"]], :column_widths => [120, 120], :cell_style => {:size => 7 }, :position => :center, )
-    pdf.table([["IMPLEMENTO CONTRATUAL", @entrega.implemento]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["MULTA CONTRATUAL", number_with_precision(@entrega.multa, :precision => 2)]], :column_widths => [120,120], :cell_style => {:size => 7},:position => :center )
-    pdf.table([["TAXA CONDOMINIO", @entrega.condominio]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["ENCARGOS ADM", @entrega.encargos]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["DÉBITOS DIVERSOS", @entrega.debito_diversos]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["CRÉDITO", @entrega.credito]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-    pdf.table([["CAUÇÃO", @entrega.caucao]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
-        implemento = @entrega.implemento
-        multa_entrega = @entrega.multa
-        condominio = @entrega.condominio
-        encargos = @entrega.encargos
-        debito_diversos = @entrega.debito_diversos
-        creditos = @entrega.credito
-        caucao = @entrega.caucao
+    # quadro de resumo do contrato
+    pdf.bounding_box([0, 240], :width => 520, :height => 300, :align => :center) do
+        pdf.formatted_text [ { :text => "RESUMO", :styles => [:bold] }] , :align => :center 
+        #correção de bug para coagir nil em decimal
+        caesa == nil ? caesa = 0 : number_with_precision(caesa, :precision => 2)
+        iptu == nil ? iptu = 0 : number_with_precision(iptu, :precision => 2)
+        cea == nil ? cea = 0 : number_with_precision(cea, :precision => 2)
+        tt = (total_juros == 0 ? aluguel : 0.00) + cea.to_d + caesa.to_d + iptu.to_d
+        # ends
+        pdf.table([["TOTAL DE DEBITO", "R$ #{number_with_precision(tt, :precision => 2)}"]], :column_widths => [120, 120], :cell_style => {:size => 7 }, :position => :center, )
+        pdf.table([["IMPLEMENTO CONTRATUAL", @entrega.implemento]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
+        pdf.table([["MULTA CONTRATUAL", number_with_precision(@entrega.multa, :precision => 2)]], :column_widths => [120,120], :cell_style => {:size => 7},:position => :center )
+        pdf.table([["TAXA CONDOMINIO", @entrega.condominio]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
+        pdf.table([["ENCARGOS ADM", @entrega.encargos]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
+        pdf.table([["DÉBITOS DIVERSOS", @entrega.debito_diversos]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
+        pdf.table([["CRÉDITO", @entrega.credito]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
+        pdf.table([["CAUÇÃO", @entrega.caucao]], :column_widths => [120,120], :cell_style => {:size => 7}, :position => :center )
+            implemento = @entrega.implemento
+            multa_entrega = @entrega.multa
+            condominio = @entrega.condominio
+            encargos = @entrega.encargos
+            debito_diversos = @entrega.debito_diversos
+            creditos = @entrega.credito
+            caucao = @entrega.caucao
 
 
-    tp = caucao - ((multa_entrega + implemento + condominio + encargos + debito_diversos + tt) - creditos)
-    
-    pdf.table([["TOTAL", "R$ #{tp}"]], :column_widths => [120,120], :cell_style => {:size => 7, :font_style => :bold}, :position => :center)
-    #roddape assinatura --- 
+        tp = caucao - ((multa_entrega + implemento + condominio + encargos + debito_diversos + tt) - creditos)
+        
+        pdf.table([["TOTAL", "R$ #{tp}"]], :column_widths => [120,120], :cell_style => {:size => 7, :font_style => :bold}, :position => :center)
+    end
+        #roddape assinatura --- 
     pdf.move_down(80)
 
     
@@ -197,9 +200,13 @@ prawn_document(page_layout: :portrait) do |pdf|
     else        
         pdf.table([["NÃO HA DEBITOS DE IPTU"]], :column_widths => [520],:cell_style => {:size => 7, :font_style => :bold, :align => :center })           
     end
-    pdf.move_down(10)
-    pdf.formatted_text [ { :text => "OBSERVAÇÕES GERAIS", :styles => [:bold] }] , :align => :center
+    
+    
     #listagem de observações de CEA
+    pdf.bounding_box([0, 400], :width => 520, :height => 50, :align => :center) do
+        pdf.formatted_text [ { :text => "OBSERVAÇÕES GERAIS", :styles => [:bold] }] , :align => :center
+    end
+    #titulo end
     pdf.bounding_box([0, 380], :width => 520, :height => 50, :align => :center) do
         pdf.stroke_bounds
         pdf.move_down(3)
@@ -259,7 +266,3 @@ prawn_document(page_layout: :portrait) do |pdf|
       
     
 end
-
-
-
-
